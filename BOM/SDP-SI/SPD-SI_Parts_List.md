@@ -1,0 +1,17 @@
+SDP-SI - BOM
+============
+## For Each Syringe Drive
+-------------------------
+
+Quantity  |  Part Number       |  Description                                                                                      
+----------|--------------------|---------------------------------------------------------------------------------------------------
+1         |  A 7X 1-06012      |  .18720" (+.000/-.0002) Dia. 1.25" Long 303 Stainless Steel Shaft                                 
+2         |  A 7X 1-04023      |  .12470" (+.000/-.0002) Dia. 2.375" Long 303 Stainless Steel Shaft                                
+1         |  A 7X 8-C04031     |  0.125" I.D. 0.1875" O.D. 0.031" Thick Shaft Spacer                                               
+3         |  A 7X 8-C04016     |  0.125" I.D. 0.1875" O.D. 0.016" Thick Shaft Spacer                                               
+1         |  S5000Y-12510      |  0.1248" Bore 0.3125" O.D. 0.18" Wide 303 Stainless Steel Collar Style                            
+1         |  A 1T 2-Y32016     |  32 DP 16 Teeth 20° Pressure Angle Acetal / Brass insert spur Gear                                
+1         |  S1C83Z-P048B055S  |  55:1 Gear Ratio 55 Teeth Worm Gear                                                               
+1         |  S1D94Z-P048SS     |  48DP/1 Lead/.33PD 20° Pressure Angle Stainless Steel Worm                                        
+1         |  S1063Z-048A024    |  48 D.P. 24 Teeth 20° Pressure Angle AGMA Q10 Quality With ( Hub / S.S.) 2024 Aluminum Alloy Gear.
+1         |  S1063Z-048S048    |  48 D.P. 48 Teeth 20° Pressure Angle AGMA Q10 Quality With ( Hub / S.S.) 303 Stainless Steel Gear.

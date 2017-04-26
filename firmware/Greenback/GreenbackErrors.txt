@@ -1,0 +1,190 @@
+vagrant@vagrant-VirtualBox:~/Downloads/arduino-1.6.8$ ./arduino
+Picked up JAVA_TOOL_OPTIONS: 
+
+Sketch uses 1,554 bytes (0%) of program storage space. Maximum is 253,952 bytes.
+Global variables use 9 bytes (0%) of dynamic memory, leaving 8,183 bytes for local variables. Maximum is 8,192 bytes.
+In file included from sketch/Greenback.h:22:0,
+                 from sketch/BlinkM.cpp:5:
+sketch/Configuration.h:493:0: warning: "DEFAULT_AXIS_STEPS_PER_UNIT" redefined [enabled by default]
+ #define DEFAULT_AXIS_STEPS_PER_UNIT   {100.0,100.0,1512,800}  // default steps per unit for Ultimaker
+ ^
+sketch/Configuration.h:490:0: note: this is the location of the previous definition
+ #define DEFAULT_AXIS_STEPS_PER_UNIT   {100.5,100.5,1512,800}  // default steps per unit for Ultimaker
+ ^
+In file included from sketch/Greenback.h:22:0,
+                 from sketch/ConfigurationStore.cpp:1:
+sketch/Configuration.h:493:0: warning: "DEFAULT_AXIS_STEPS_PER_UNIT" redefined [enabled by default]
+ #define DEFAULT_AXIS_STEPS_PER_UNIT   {100.0,100.0,1512,800}  // default steps per unit for Ultimaker
+ ^
+sketch/Configuration.h:490:0: note: this is the location of the previous definition
+ #define DEFAULT_AXIS_STEPS_PER_UNIT   {100.5,100.5,1512,800}  // default steps per unit for Ultimaker
+ ^
+In file included from /home/vagrant/Bioprint/Greenback/Greenback/Greenback.ino:33:0:
+sketch/Configuration.h:493:0: warning: "DEFAULT_AXIS_STEPS_PER_UNIT" redefined [enabled by default]
+ #define DEFAULT_AXIS_STEPS_PER_UNIT   {100.0,100.0,1512,800}  // default steps per unit for Ultimaker
+ ^
+sketch/Configuration.h:490:0: note: this is the location of the previous definition
+ #define DEFAULT_AXIS_STEPS_PER_UNIT   {100.5,100.5,1512,800}  // default steps per unit for Ultimaker
+ ^
+In file included from sketch/Greenback.h:22:0,
+                 from sketch/GreenbackSerial.cpp:23:
+sketch/Configuration.h:493:0: warning: "DEFAULT_AXIS_STEPS_PER_UNIT" redefined [enabled by default]
+ #define DEFAULT_AXIS_STEPS_PER_UNIT   {100.0,100.0,1512,800}  // default steps per unit for Ultimaker
+ ^
+sketch/Configuration.h:490:0: note: this is the location of the previous definition
+ #define DEFAULT_AXIS_STEPS_PER_UNIT   {100.5,100.5,1512,800}  // default steps per unit for Ultimaker
+ ^
+In file included from sketch/Greenback.h:22:0,
+                 from sketch/Greenback_main.cpp:30:
+sketch/Configuration.h:493:0: warning: "DEFAULT_AXIS_STEPS_PER_UNIT" redefined [enabled by default]
+ #define DEFAULT_AXIS_STEPS_PER_UNIT   {100.0,100.0,1512,800}  // default steps per unit for Ultimaker
+ ^
+sketch/Configuration.h:490:0: note: this is the location of the previous definition
+ #define DEFAULT_AXIS_STEPS_PER_UNIT   {100.5,100.5,1512,800}  // default steps per unit for Ultimaker
+ ^
+sketch/Greenback_main.cpp:2692:36: warning: invalid suffix on literal; C++11 requires a space between literal and identifier [-Wliteral-suffix]
+         LCD_MESSAGEPGM(MACHINE_NAME" "MSG_OFF".");
+                                    ^
+In file included from sketch/Greenback.h:22:0,
+                 from sketch/Sd2Card.cpp:20:
+sketch/Configuration.h:493:0: warning: "DEFAULT_AXIS_STEPS_PER_UNIT" redefined [enabled by default]
+ #define DEFAULT_AXIS_STEPS_PER_UNIT   {100.0,100.0,1512,800}  // default steps per unit for Ultimaker
+ ^
+sketch/Configuration.h:490:0: note: this is the location of the previous definition
+ #define DEFAULT_AXIS_STEPS_PER_UNIT   {100.5,100.5,1512,800}  // default steps per unit for Ultimaker
+ ^
+In file included from sketch/Greenback.h:22:0,
+                 from sketch/SdBaseFile.cpp:21:
+sketch/Configuration.h:493:0: warning: "DEFAULT_AXIS_STEPS_PER_UNIT" redefined [enabled by default]
+ #define DEFAULT_AXIS_STEPS_PER_UNIT   {100.0,100.0,1512,800}  // default steps per unit for Ultimaker
+ ^
+sketch/Configuration.h:490:0: note: this is the location of the previous definition
+ #define DEFAULT_AXIS_STEPS_PER_UNIT   {100.5,100.5,1512,800}  // default steps per unit for Ultimaker
+ ^
+In file included from sketch/Greenback.h:22:0,
+                 from sketch/SdFatUtil.cpp:20:
+sketch/Configuration.h:493:0: warning: "DEFAULT_AXIS_STEPS_PER_UNIT" redefined [enabled by default]
+ #define DEFAULT_AXIS_STEPS_PER_UNIT   {100.0,100.0,1512,800}  // default steps per unit for Ultimaker
+ ^
+sketch/Configuration.h:490:0: note: this is the location of the previous definition
+ #define DEFAULT_AXIS_STEPS_PER_UNIT   {100.5,100.5,1512,800}  // default steps per unit for Ultimaker
+ ^
+In file included from sketch/Greenback.h:22:0,
+                 from sketch/SdFile.cpp:20:
+sketch/Configuration.h:493:0: warning: "DEFAULT_AXIS_STEPS_PER_UNIT" redefined [enabled by default]
+ #define DEFAULT_AXIS_STEPS_PER_UNIT   {100.0,100.0,1512,800}  // default steps per unit for Ultimaker
+ ^
+sketch/Configuration.h:490:0: note: this is the location of the previous definition
+ #define DEFAULT_AXIS_STEPS_PER_UNIT   {100.5,100.5,1512,800}  // default steps per unit for Ultimaker
+ ^
+In file included from sketch/Greenback.h:22:0,
+                 from sketch/SdVolume.cpp:20:
+sketch/Configuration.h:493:0: warning: "DEFAULT_AXIS_STEPS_PER_UNIT" redefined [enabled by default]
+ #define DEFAULT_AXIS_STEPS_PER_UNIT   {100.0,100.0,1512,800}  // default steps per unit for Ultimaker
+ ^
+sketch/Configuration.h:490:0: note: this is the location of the previous definition
+ #define DEFAULT_AXIS_STEPS_PER_UNIT   {100.5,100.5,1512,800}  // default steps per unit for Ultimaker
+ ^
+In file included from sketch/Servo.cpp:44:0:
+sketch/Configuration.h:493:0: warning: "DEFAULT_AXIS_STEPS_PER_UNIT" redefined [enabled by default]
+ #define DEFAULT_AXIS_STEPS_PER_UNIT   {100.0,100.0,1512,800}  // default steps per unit for Ultimaker
+ ^
+sketch/Configuration.h:490:0: note: this is the location of the previous definition
+ #define DEFAULT_AXIS_STEPS_PER_UNIT   {100.5,100.5,1512,800}  // default steps per unit for Ultimaker
+ ^
+In file included from sketch/Greenback.h:22:0,
+                 from sketch/bioSPI.h:20,
+                 from sketch/bioSPI.cpp:1:
+sketch/Configuration.h:493:0: warning: "DEFAULT_AXIS_STEPS_PER_UNIT" redefined [enabled by default]
+ #define DEFAULT_AXIS_STEPS_PER_UNIT   {100.0,100.0,1512,800}  // default steps per unit for Ultimaker
+ ^
+sketch/Configuration.h:490:0: note: this is the location of the previous definition
+ #define DEFAULT_AXIS_STEPS_PER_UNIT   {100.5,100.5,1512,800}  // default steps per unit for Ultimaker
+ ^
+In file included from sketch/Greenback.h:22:0,
+                 from sketch/cardreader.cpp:1:
+sketch/Configuration.h:493:0: warning: "DEFAULT_AXIS_STEPS_PER_UNIT" redefined [enabled by default]
+ #define DEFAULT_AXIS_STEPS_PER_UNIT   {100.0,100.0,1512,800}  // default steps per unit for Ultimaker
+ ^
+sketch/Configuration.h:490:0: note: this is the location of the previous definition
+ #define DEFAULT_AXIS_STEPS_PER_UNIT   {100.5,100.5,1512,800}  // default steps per unit for Ultimaker
+ ^
+In file included from sketch/digipot_mcp4451.cpp:1:0:
+sketch/Configuration.h:493:0: warning: "DEFAULT_AXIS_STEPS_PER_UNIT" redefined [enabled by default]
+ #define DEFAULT_AXIS_STEPS_PER_UNIT   {100.0,100.0,1512,800}  // default steps per unit for Ultimaker
+ ^
+sketch/Configuration.h:490:0: note: this is the location of the previous definition
+ #define DEFAULT_AXIS_STEPS_PER_UNIT   {100.5,100.5,1512,800}  // default steps per unit for Ultimaker
+ ^
+In file included from sketch/Greenback.h:22:0,
+                 from sketch/motion_control.cpp:22:
+sketch/Configuration.h:493:0: warning: "DEFAULT_AXIS_STEPS_PER_UNIT" redefined [enabled by default]
+ #define DEFAULT_AXIS_STEPS_PER_UNIT   {100.0,100.0,1512,800}  // default steps per unit for Ultimaker
+ ^
+sketch/Configuration.h:490:0: note: this is the location of the previous definition
+ #define DEFAULT_AXIS_STEPS_PER_UNIT   {100.5,100.5,1512,800}  // default steps per unit for Ultimaker
+ ^
+In file included from sketch/Greenback.h:22:0,
+                 from sketch/planner.cpp:54:
+sketch/Configuration.h:493:0: warning: "DEFAULT_AXIS_STEPS_PER_UNIT" redefined [enabled by default]
+ #define DEFAULT_AXIS_STEPS_PER_UNIT   {100.0,100.0,1512,800}  // default steps per unit for Ultimaker
+ ^
+sketch/Configuration.h:490:0: note: this is the location of the previous definition
+ #define DEFAULT_AXIS_STEPS_PER_UNIT   {100.5,100.5,1512,800}  // default steps per unit for Ultimaker
+ ^
+In file included from sketch/qr_solve.h:1:0,
+                 from sketch/qr_solve.cpp:1:
+sketch/Configuration.h:493:0: warning: "DEFAULT_AXIS_STEPS_PER_UNIT" redefined [enabled by default]
+ #define DEFAULT_AXIS_STEPS_PER_UNIT   {100.0,100.0,1512,800}  // default steps per unit for Ultimaker
+ ^
+sketch/Configuration.h:490:0: note: this is the location of the previous definition
+ #define DEFAULT_AXIS_STEPS_PER_UNIT   {100.5,100.5,1512,800}  // default steps per unit for Ultimaker
+ ^
+In file included from sketch/Greenback.h:22:0,
+                 from sketch/stepper.cpp:24:
+sketch/Configuration.h:493:0: warning: "DEFAULT_AXIS_STEPS_PER_UNIT" redefined [enabled by default]
+ #define DEFAULT_AXIS_STEPS_PER_UNIT   {100.0,100.0,1512,800}  // default steps per unit for Ultimaker
+ ^
+sketch/Configuration.h:490:0: note: this is the location of the previous definition
+ #define DEFAULT_AXIS_STEPS_PER_UNIT   {100.5,100.5,1512,800}  // default steps per unit for Ultimaker
+ ^
+In file included from sketch/Greenback.h:22:0,
+                 from sketch/temperature.cpp:32:
+sketch/Configuration.h:493:0: warning: "DEFAULT_AXIS_STEPS_PER_UNIT" redefined [enabled by default]
+ #define DEFAULT_AXIS_STEPS_PER_UNIT   {100.0,100.0,1512,800}  // default steps per unit for Ultimaker
+ ^
+sketch/Configuration.h:490:0: note: this is the location of the previous definition
+ #define DEFAULT_AXIS_STEPS_PER_UNIT   {100.5,100.5,1512,800}  // default steps per unit for Ultimaker
+ ^
+In file included from sketch/Greenback.h:22:0,
+                 from sketch/temperature.h:24,
+                 from sketch/ultralcd.cpp:1:
+sketch/Configuration.h:493:0: warning: "DEFAULT_AXIS_STEPS_PER_UNIT" redefined [enabled by default]
+ #define DEFAULT_AXIS_STEPS_PER_UNIT   {100.0,100.0,1512,800}  // default steps per unit for Ultimaker
+ ^
+sketch/Configuration.h:490:0: note: this is the location of the previous definition
+ #define DEFAULT_AXIS_STEPS_PER_UNIT   {100.5,100.5,1512,800}  // default steps per unit for Ultimaker
+ ^
+In file included from sketch/Greenback.h:22:0,
+                 from sketch/vector_3.cpp:20:
+sketch/Configuration.h:493:0: warning: "DEFAULT_AXIS_STEPS_PER_UNIT" redefined [enabled by default]
+ #define DEFAULT_AXIS_STEPS_PER_UNIT   {100.0,100.0,1512,800}  // default steps per unit for Ultimaker
+ ^
+sketch/Configuration.h:490:0: note: this is the location of the previous definition
+ #define DEFAULT_AXIS_STEPS_PER_UNIT   {100.5,100.5,1512,800}  // default steps per unit for Ultimaker
+ ^
+In file included from sketch/Greenback.h:22:0,
+                 from sketch/watchdog.cpp:1:
+sketch/Configuration.h:493:0: warning: "DEFAULT_AXIS_STEPS_PER_UNIT" redefined [enabled by default]
+ #define DEFAULT_AXIS_STEPS_PER_UNIT   {100.0,100.0,1512,800}  // default steps per unit for Ultimaker
+ ^
+sketch/Configuration.h:490:0: note: this is the location of the previous definition
+ #define DEFAULT_AXIS_STEPS_PER_UNIT   {100.5,100.5,1512,800}  // default steps per unit for Ultimaker
+ ^
+
+Sketch uses 48,534 bytes (19%) of program storage space. Maximum is 253,952 bytes.
+Global variables use 2,856 bytes (34%) of dynamic memory, leaving 5,336 bytes for local variables. Maximum is 8,192 bytes.
+avrdude: stk500v2_ReceiveMessage(): timeout
+avrdude: stk500v2_ReceiveMessage(): timeout
+vagrant@vagrant-VirtualBox:~/Downloads/arduino-1.6.8$ 
+

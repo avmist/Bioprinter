@@ -1,0 +1,160 @@
+---
+language: c
+
+before_install:
+  - pwd
+  - wget https://bootstrap.pypa.io/get-pip.py
+  - wget https://bintray.com/artifact/download/olikraus/u8glib/u8glib_arduino_v1.17.zip
+install:
+  - sudo python get-pip.py
+  - sudo pip install ino
+  # add ppa for newer version of Arduino than available in ubuntu 12.04
+  - sudo add-apt-repository ppa:michael-gruz/elektronik -y
+  - sudo apt-get update -q 
+  - sudo apt-get install arduino
+before_script:
+ # add U8glib, LiquidCrystal_I2C & LiquidTWI2 libraries 
+  - sudo unzip u8glib_arduino_v1.17.zip -d /usr/share/arduino/libraries/
+  - cd /usr/share/arduino/libraries/
+  - sudo git clone https://github.com/kiyoshigawa/LiquidCrystal_I2C.git
+  - ls -la
+  - ls -la LiquidCrystal_I2C/
+  - sudo git clone https://github.com/lincomatic/LiquidTWI2.git
+  # remove Robot_Control library to stop compile error!
+  - sudo rm -rf /usr/share/arduino/libraries/Robot_Control
+  # change back to home directory for compiling
+  - cd $TRAVIS_BUILD_DIR
+  # ino needs files in src directory
+  - ln -s Greenback src
+  # remove Greenback.pde as it confuses ino after it finds Greenback.ino
+  - rm Greenback/Greenback.pde
+script:
+  # build default config
+  - ino build -m mega2560
+  # backup configuration.h
+  - cp Greenback/Configuration.h Greenback/Configuration.h.backup
+  - cp Greenback/Configuration_adv.h Greenback/Configuration_adv.h.backup
+  # change extruder numbers from 1 to 2
+  # commented out for the moment fails build but compiles fine in Arduino
+  #- sed -i 's/#define EXTRUDERS 1/#define EXTRUDERS 2/g' Greenback/Configuration.h
+  #- rm -rf .build/
+  #- ino build -m mega2560
+  # change extruder numbers from 2 to 3, needs to be a board with 3 extruders defined in pins.h 
+  #- sed -i 's/#define MOTHERBOARD BOARD_ULTIMAKER/#define MOTHERBOARD BOARD_AZTEEG_X3_PRO/g' Greenback/Configuration.h
+  #- sed -i 's/#define EXTRUDERS 2/#define EXTRUDERS 3/g' Greenback/Configuration.h
+  #- rm -rf .build/
+  #- ino build -m mega2560
+  # enable PIDTEMPBED 
+  - cp Greenback/Configuration.h.backup Greenback/Configuration.h
+  - sed -i 's/\/\/#define PIDTEMPBED/#define PIDTEMPBED/g' Greenback/Configuration.h
+  - rm -rf .build/
+  - ino build -m mega2560
+  # enable THERMAL RUNAWAY PROTECTION for extruders & bed
+  - cp Greenback/Configuration.h.backup Greenback/Configuration.h
+  - sed -i 's/\/\/#define THERMAL_RUNAWAY_PROTECTION_PERIOD/#define THERMAL_RUNAWAY_PROTECTION_PERIOD/g' Greenback/Configuration.h
+  - sed -i 's/\/\/#define THERMAL_RUNAWAY_PROTECTION_HYSTERESIS/#define THERMAL_RUNAWAY_PROTECTION_HYSTERESIS/g' Greenback/Configuration.h
+  - sed -i 's/\/\/#define THERMAL_RUNAWAY_PROTECTION_BED_PERIOD/#define THERMAL_RUNAWAY_PROTECTION_BED_PERIOD/g' Greenback/Configuration.h
+  - sed -i 's/\/\/#define THERMAL_RUNAWAY_PROTECTION_BED_HYSTERESIS/#define THERMAL_RUNAWAY_PROTECTION_BED_HYSTERESIS/g' Greenback/Configuration.h
+  - rm -rf .build/
+  - ino build -m mega2560
+  # enable AUTO_BED_LEVELING
+  - cp Greenback/Configuration.h.backup Greenback/Configuration.h
+  - sed -i 's/\/\/#define ENABLE_AUTO_BED_LEVELING/#define ENABLE_AUTO_BED_LEVELING/g' Greenback/Configuration.h
+  - rm -rf .build/
+  - ino build -m mega2560
+  # enable EEPROM_SETTINGS & EEPROM_CHITCHAT
+  - cp Greenback/Configuration.h.backup Greenback/Configuration.h
+  - sed -i 's/\/\/#define EEPROM_SETTINGS/#define EEPROM_SETTINGS/g' Greenback/Configuration.h
+  - sed -i 's/\/\/#define EEPROM_CHITCHAT/#define EEPROM_CHITCHAT/g' Greenback/Configuration.h
+  - rm -rf .build/
+  - ino build -m mega2560
+  ### LCDS ###
+  # ULTIMAKERCONTROLLER
+  - cp Greenback/Configuration.h.backup Greenback/Configuration.h
+  - sed -i 's/\/\/#define ULTIMAKERCONTROLLER/#define ULTIMAKERCONTROLLER/g' Greenback/Configuration.h
+  - rm -rf .build/
+  - ino build -m mega2560
+  # MAKRPANEL
+  # Needs to use melzi and sanguino hardware
+  #- cp Greenback/Configuration.h.backup Greenback/Configuration.h
+  #- sed -i 's/\/\/#define MAKRPANEL/#define MAKRPANEL/g' Greenback/Configuration.h
+  #- rm -rf .build/
+  #- ino build -m mega2560
+  # REPRAP_DISCOUNT_SMART_CONTROLLER
+  - cp Greenback/Configuration.h.backup Greenback/Configuration.h
+  - sed -i 's/\/\/#define REPRAP_DISCOUNT_SMART_CONTROLLER/#define REPRAP_DISCOUNT_SMART_CONTROLLER/g' Greenback/Configuration.h
+  - rm -rf .build/
+  - ino build -m mega2560
+  # G3D_PANE
+  - cp Greenback/Configuration.h.backup Greenback/Configuration.h
+  - sed -i 's/\/\/#define G3D_PANEL/#define G3D_PANEL/g' Greenback/Configuration.h
+  - rm -rf .build/
+  - ino build -m mega2560
+  # REPRAP_DISCOUNT_FULL_GRAPHIC_SMART_CONTROLLER
+  - cp Greenback/Configuration.h.backup Greenback/Configuration.h
+  - sed -i 's/\/\/#define REPRAP_DISCOUNT_FULL_GRAPHIC_SMART_CONTROLLER/#define REPRAP_DISCOUNT_FULL_GRAPHIC_SMART_CONTROLLER/g' Greenback/Configuration.h
+  - rm -rf .build/
+  - ino build -m mega2560
+  # REPRAPWORLD_KEYPAD 
+  # Cant find configuration details to get it to compile
+  #- cp Greenback/Configuration.h.backup Greenback/Configuration.h
+  #- sed -i 's/\/\/#define ULTRA_LCD/#define ULTRA_LCD/g' Greenback/Configuration.h
+  #- sed -i 's/\/\/#define REPRAPWORLD_KEYPAD/#define REPRAPWORLD_KEYPAD/g' Greenback/Configuration.h
+  #- sed -i 's/\/\/#define REPRAPWORLD_KEYPAD_MOVE_STEP 10.0/#define REPRAPWORLD_KEYPAD_MOVE_STEP 10.0/g' Greenback/Configuration.h
+  #- rm -rf .build/
+  #- ino build -m mega2560
+  # RA_CONTROL_PANEL
+  - cp Greenback/Configuration.h.backup Greenback/Configuration.h
+  - sed -i 's/\/\/#define RA_CONTROL_PANEL/#define RA_CONTROL_PANEL/g' Greenback/Configuration.h
+  - rm -rf .build/
+  - ino build -m mega2560
+  ### I2C PANELS ###
+  # LCD_I2C_SAINSMART_YWROBOT
+  # Failing at the moment needs different library 
+  #- cp Greenback/Configuration.h.backup Greenback/Configuration.h
+  #- sed -i 's/\/\/#define LCD_I2C_SAINSMART_YWROBOT/#define LCD_I2C_SAINSMART_YWROBOT/g' Greenback/Configuration.h
+  #- rm -rf .build/
+  #- ino build -m mega2560
+  # LCD_I2C_PANELOLU2
+  - cp Greenback/Configuration.h.backup Greenback/Configuration.h
+  - sed -i 's/\/\/#define LCD_I2C_PANELOLU2/#define LCD_I2C_PANELOLU2/g' Greenback/Configuration.h
+  - rm -rf .build/
+  - ino build -m mega2560
+  # LCD_I2C_VIKI
+  - cp Greenback/Configuration.h.backup Greenback/Configuration.h
+  - sed -i 's/\/\/#define LCD_I2C_VIKI/#define LCD_I2C_VIKI/g' Greenback/Configuration.h
+  - rm -rf .build/
+  - ino build -m mega2560
+  # Enable filament sensor
+  - cp Greenback/Configuration.h.backup Greenback/Configuration.h
+  - sed -i 's/\/\/#define FILAMENT_SENSOR/#define FILAMENT_SENSOR/g' Greenback/Configuration.h
+  - rm -rf .build/
+  - ino build -m mega2560
+   # Enable filament sensor with LCD display
+  - cp Greenback/Configuration.h.backup Greenback/Configuration.h
+  - sed -i 's/\/\/#define ULTIMAKERCONTROLLER/#define ULTIMAKERCONTROLLER/g' Greenback/Configuration.h
+  - sed -i 's/\/\/#define FILAMENT_SENSOR/#define FILAMENT_SENSOR/g' Greenback/Configuration.h
+  - sed -i 's/\/\/#define FILAMENT_LCD_DISPLAY/#define FILAMENT_LCD_DISPLAY/g' Greenback/Configuration.h
+  - rm -rf .build/
+  - ino build -m mega2560
+  ######## Example Configurations ##############
+  # Delta Config
+  - cp Greenback/example_configurations/delta/Configuration* Greenback/
+  - rm -rf .build/
+  - ino build -m mega2560
+  # Makibox Config  need to check board type for Teensy++ 2.0
+  #- cp Greenback/example_configurations/makibox/Configuration* Greenback/
+  #- rm -rf .build/
+  #- ino build -m mega2560
+  # SCARA Config
+  - cp Greenback/example_configurations/SCARA/Configuration* Greenback/
+  - rm -rf .build/
+  - ino build -m mega2560
+  # tvrrug Config need to check board type for sanguino atmega644p
+  #- cp Greenback/example_configurations/tvrrug/Round2/Configuration* Greenback/
+  #- rm -rf .build/
+  #- ino build -m mega2560
+  ######## Board Types #############
+  - sed -i 's/#define MOTHERBOARD BOARD_RAMPS_13_EFB/#define MOTHERBOARD BOARD_DUEMILANOVE_328P/g' Greenback/Configuration.h
+  - rm -rf .build/
+  - ino build -m atmega328
