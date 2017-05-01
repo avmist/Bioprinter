@@ -27,6 +27,7 @@
 /* Use this file to help the Arduino IDE find which Arduino libraries are needed and to keep documentation on GCode */
 
 #include "Configuration.h"
+#include "Configuration_adv.h"
 #include "pins.h"
 
 #ifdef ULTRA_LCD

@@ -383,7 +383,7 @@
 #endif
 
 #if MB(GEN7_14)
-#define KNOWN_BOARD
+#define KNOWN_BOARD 1
 
 #if !defined(__AVR_ATmega644P__) && !defined(__AVR_ATmega644__) && !defined(__AVR_ATmega1284P__)
 #error Oops! Make sure you have 'Gen7' selected from the 'Tools -> Boards' menu.
@@ -657,6 +657,7 @@
 
   #if MB(RAMPS_13_EFB) || MB(RAMPS_13_EFF) || MB(AZTEEG_X3)
     #define FAN_PIN            9 // (Sprinter config)
+    #define KNOWN_BOARD 1
   #elif MB(AZTEEG_X3_PRO)
     #define FAN_PIN            11 // Last Heater Pin on board
   #else
@@ -668,6 +669,7 @@
   #endif
 
   #if MB(RAMPS_13_EFF)
+  #define KNOWN_BOARD 1
     #define CONTROLLERFAN_PIN  -1 //Pin used for the fan to cool controller
   #endif
 
@@ -852,12 +854,12 @@
   #endif //ULTRA_LCD
 
 #else // RAMPS_V_1_1 or RAMPS_V_1_2 as default (BOARD_RAMPS_OLD)
-
+ #define KNOWN_BOARD 1
 #define X_STEP_PIN         26
 #define X_DIR_PIN          28
 #define X_ENABLE_PIN       24
 #define X_MIN_PIN           3
-#define X2_MIN_PIN          2    //2
+#define X_MAX_PIN          -1    //2
 
 #define Y_STEP_PIN         38
 #define Y_DIR_PIN          40
@@ -869,7 +871,7 @@
 #define Z_DIR_PIN          46
 #define Z_ENABLE_PIN       42
 #define Z_MIN_PIN          18
-#define Z2_MIN_PIN         19    //19
+#define Z_MAX_PIN          -1    //19
 
 #define E0_STEP_PIN         32
 #define E0_DIR_PIN          34
