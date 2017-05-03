@@ -19,8 +19,8 @@ from g_code_generator import gen_gcode_cube
 # Start Serial
 # ser = serial.Serial('/dev/cu.usbmodemfa121', 9600)
 # serPeltier = serial.Serial('/dev/cu.usbmodemfd131', 9600)
-ser = serial.Serial('/dev/ttyACM1', 9600)
-serPeltier = serial.Serial('/dev/ttyACM2', 9600)
+ser = serial.Serial('/dev/cu.usbmodem1411', 9600)
+serPeltier = serial.Serial('/dev/cu.usbmodem1421', 9600)
 
 counter = 0
 def counter_label(label):
