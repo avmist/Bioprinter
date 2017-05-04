@@ -154,25 +154,6 @@ void manage_inactivity(bool ignore_stepper_queue=false);
   #define disable_e0() /* nothing */
 #endif
 
-//******************************************
-// Ava's shit
-#if defined(Z2_ENABLE_PIN) && (Z2_ENABLE_PIN > -1)
-  #define enable_z2() WRITE(Z2_ENABLE_PIN, Z2_ENABLE_ON)
-  #define disable_z2() WRITE(Z2_ENABLE_PIN,!Z2_ENABLE_ON)
-#else
-  #define enable_z2()  /* nothing */
-  #define disable_z2() /* nothing */
-#endif
-
-#if defined(X2_ENABLE_PIN) && (X2_ENABLE_PIN > -1)
-  #define enable_x2() WRITE(X2_ENABLE_PIN, X2_ENABLE_ON)
-  #define disable_x2() WRITE(X2_ENABLE_PIN,!X2_ENABLE_ON)
-#else
-  #define enable_x2()  /* nothing */
-  #define disable_x2() /* nothing */
-#endif
-//****************************************
-
 #if (EXTRUDERS > 1) && defined(E1_ENABLE_PIN) && (E1_ENABLE_PIN > -1)
   #define enable_e1() WRITE(E1_ENABLE_PIN, E_ENABLE_ON)
   #define disable_e1() WRITE(E1_ENABLE_PIN,!E_ENABLE_ON)
@@ -189,7 +170,7 @@ void manage_inactivity(bool ignore_stepper_queue=false);
   #define disable_e2() /* nothing */
 #endif
 
-enum AxisEnum {X_AXIS=0, Y_AXIS=1, Z_AXIS=2, E_AXIS=3, X2_AXIS=4, Z2_AXIS=5};
+enum AxisEnum {X_AXIS=0, Y_AXIS=1, Z_AXIS=2, E_AXIS=3, X_HEAD=4, Y_HEAD=5};
 
 
 void FlushSerialRequestResend();

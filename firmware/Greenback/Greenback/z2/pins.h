@@ -131,38 +131,21 @@
 #define E0_DIR_PIN          35 //35
 #define E0_ENABLE_PIN       33 //33
 
-//********************************
-// Ava's shit
 // Commented out for Dual Z Axis
 //  => Z2 on E1 driver
 /*
 #define E1_STEP_PIN         37 //37
 #define E1_DIR_PIN          40 //40
 #define E1_ENABLE_PIN       36 //36
-
-
-
-#define Y2_STEP_PIN         37
-#define Y2_DIR_PIN          40
-#define Y2_ENABLE_PIN       36
-
-
-#define Y2_STEP_PIN         37
-#define Y2_DIR_PIN          40
-#define Y2_ENABLE_PIN       36
-
 */
+
+#define Y2_STEP_PIN         37
+#define Y2_DIR_PIN          40
+#define Y2_ENABLE_PIN       36
 
 #define Z2_STEP_PIN         37
 #define Z2_DIR_PIN          40
 #define Z2_ENABLE_PIN       36
-
-
-#define X2_STEP_PIN         -1
-#define X2_DIR_PIN          -1
-#define X2_ENABLE_PIN       -1
-
-//********************************
 
 #define SDPOWER            -1
 #define SDSS               11

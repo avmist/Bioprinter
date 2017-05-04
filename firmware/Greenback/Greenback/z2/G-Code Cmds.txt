@@ -1,0 +1,30 @@
+////////////////////////////////////////////////////////////////
+// Custom G-Code Cmds
+////////////////////////////////////////////////////////////////
+
+NOTES:
+
+()	-	Implies the cmd is not needed and resorts to default (Byte Value varies, Head Deafault is Head 0 or T10)
+V#	-	Is a Input Value
+T#	-	Designates a Head to Act on
+
+
+Code	Description					Cmd				Number Values				Notes						
+
+G5	-	Enables UV Light		-	G5 (V#) 	-	Byte Value for UV	-	Uses Default Value
+G6	-	Disables UV Light		-	G6			-						-
+G7	-	Change UV Byte Value	-	G7 V#		-	Byte Value for UV	-	Send G5 After
+G12	-	Change Peltier Temp		-	G12 V#		-	Byte Value for Pelt	-	Overwrites PID System and sets hard coded setpoint
+G13	-	Change Fan Speed		-	G13 V#		-	Byte Value for Fan	-
+G14	-	Enables PID Loop		-	G14 (T#)	-	Head Number, 10-11	-
+G15	-	Disable PID Loop		-	G15 (T#)	-	Head Number, 10-11	-
+G16	-	Start Extrusion			-	G16 (T#)	-	Head Number, 10-11	-	( Cmd Overwrites Current Extrusion rate to Default MAYBE ???)
+G17	-	Stops Extrusion			-	G17 (T#)	-	Head Number, 10-11	-
+G18	-	Sets New Syringe Temp	-	G18	V# (T#)	-	Deg C PID Setpoint	-	
+G19	-	Sets New Tube Temp		-	G19 V# (T#)	-	Deg C PID Setpoint	-	Depricated
+G20	-	Sets new Needle Temp	-	G20 V# (T#)	-	Deg C PID Setpoint	-
+G21	-	Retracts Extruder		-	G21	(T#)	-	Head Number, 10-11	-
+G22	-	Measure IR				-	G22			-						-	Needs to Be over Peltier
+G23	-	Change Pelt Setpoint	-	G23 V#		-	Byte Value for Pelt	-	Need to position head and call G24
+G24	-	Calibrates Pelt with IR	-	G24			-	Calibrates Setpoint	-	G12 will override
+G25	-	Modifies Speed			-	G25 V# (T#)	-	Delay Value 30-160	-	Only Changes Speed, does not start extruding
