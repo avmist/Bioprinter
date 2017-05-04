@@ -1423,7 +1423,7 @@ void process_commands()
 #endif
   if(code_seen('G'))
   {
-    MYSERIAL.println("seen G");
+    MYSERIAL.println("seen G " + (int)code_value());
   
     switch((int)code_value())
     {

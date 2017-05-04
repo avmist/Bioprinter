@@ -34,7 +34,7 @@
 // the source g-code and may never actually be reached if acceleration management is active.
 typedef struct {
   // Fields used by the bresenham algorithm for tracing the line
-  long steps_x, steps_y, steps_z, steps_e;  // Step count along each axis
+  long steps_x, steps_x2, steps_y, steps_z, steps_z2, steps_e;  // Step count along each axis
   unsigned long step_event_count;           // The number of step events required to complete this block
   long accelerate_until;                    // The index of the step event on which to stop acceleration
   long decelerate_after;                    // The index of the step event on which to start decelerating
@@ -128,7 +128,7 @@ extern unsigned long axis_steps_per_sqr_second[NUM_AXIS];
     
 
 
-extern block_t block_buffer[BLOCK_BUFFER_SIZE];            // A ring buffer for motion instfructions
+extern block_t block_buffer[BLOCK_BUFFER_SIZE];            // A ring buffer for motion instructions
 extern volatile unsigned char block_buffer_head;           // Index of the next block to be pushed
 extern volatile unsigned char block_buffer_tail; 
 // Called when the current block is no longer needed. Discards the block and makes the memory
