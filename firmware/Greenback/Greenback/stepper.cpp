@@ -1145,6 +1145,7 @@ void babystep(const uint8_t axis,const bool direction)
   {
   case X_AXIS:
   {
+    MYSERIAL.println("this is called in stepper.cpp:1148");
     enable_x();   
     uint8_t old_x_dir_pin= READ(X_DIR_PIN);  //if dualzstepper, both point to same direction.
    
@@ -1243,6 +1244,7 @@ void babystep(const uint8_t axis,const bool direction)
 #else //DELTA
   case Z_AXIS:
   {
+    MYSERIAL.println("this is called in stepper.cpp:1247");
     enable_x();
     enable_y();
     enable_z();

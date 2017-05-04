@@ -660,9 +660,7 @@ void setup()
 }
 
 
-void loop()
-{
-
+void loop(){
   if(buflen < (BUFSIZE-1))
     get_command();
   #ifdef SDSUPPORT
@@ -1448,9 +1446,11 @@ void process_commands()
         prepare_move();
         //ClearToSend();
       }
+    case 2:
+    // move z axis
       break;
 #ifndef SCARA //disable arc support
-    case 2: // G2  - CW ARC
+
       if(Stopped == false) {
         get_arc_coordinates();
         prepare_arc_move(true);
@@ -2159,6 +2159,7 @@ void process_commands()
 
     case 17:
         LCD_MESSAGEPGM(MSG_NO_MOVE);
+        MYSERIAL.println("this is called in Greenback_main.cpp:2164");
         enable_x();
         enable_y();
         enable_z();
