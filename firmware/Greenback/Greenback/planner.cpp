@@ -661,18 +661,18 @@ block->steps_y = labs((target[X_AXIS]-position[X_AXIS]) - (target[Y_AXIS]-positi
 
   //enable active axes
   #ifdef COREXY
-  if((block->steps_x != 0) || (block->steps_y != 0))
-  {
-    MYSERIAL.println("this is called in planner.cpp:666");
-    enable_x();
-    enable_y();
-  }
+    if((block->steps_x != 0) || (block->steps_y != 0))
+    {
+      MYSERIAL.println("this is called in planner.cpp:666");
+      enable_x();
+      enable_y();
+    }
   #else
-  if(block->steps_x != 0){
-    enable_x();
-    MYSERIAL.println("this is called in planner.cpp:672");
-  }
-  if(block->steps_y != 0) enable_y();
+    if(block->steps_x != 0){
+      enable_x();
+      MYSERIAL.println("this is called in planner.cpp:672");
+    }
+    if(block->steps_y != 0) enable_y();
   #endif
 #ifndef Z_LATE_ENABLE
   if(block->steps_z != 0) enable_z();
