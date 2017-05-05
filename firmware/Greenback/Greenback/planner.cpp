@@ -483,10 +483,10 @@ void check_axes_activity()
     }
   }
   if((DISABLE_X) && (x_active == 0)) disable_x();
-  if((DISABLE_X2) && (x2_active == 0)) disable_x2();
+  //if((DISABLE_X2) && (x2_active == 0)) disable_x2();
   if((DISABLE_Y) && (y_active == 0)) disable_y();
   if((DISABLE_Z) && (z_active == 0)) disable_z();
-  if((DISABLE_Z2) && (z2_active == 0)) disable_z2();
+  //if((DISABLE_Z2) && (z2_active == 0)) disable_z2();
   if((DISABLE_E) && (e_active == 0))
   {
     disable_e0();
