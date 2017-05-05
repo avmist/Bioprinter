@@ -535,9 +535,9 @@ float junction_deviation = 0.1;
 // mm. Microseconds specify how many microseconds the move should take to perform. To aid acceleration
 // calculation the caller must also provide the physical length of the line in millimeters.
 #ifdef ENABLE_AUTO_BED_LEVELING
-void plan_buffer_line(float x, float y, float z, const float &e, float feed_rate, const uint8_t &extruder)
+void plan_buffer_line(float x, float y, float z, const float &e, float feed_rate, const uint8_t &extruder, float x2, float z2)
 #else
-void plan_buffer_line(const float &x, const float &y, const float &z, const float &e, float feed_rate, const uint8_t &extruder)
+void plan_buffer_line(const float &x, const float &y, const float &z, const float &e, float feed_rate, const uint8_t &extruder, const float &x2, const float &z2)
 #endif  //ENABLE_AUTO_BED_LEVELING
 {
   // Calculate the buffer head after we push this byte
@@ -562,7 +562,12 @@ void plan_buffer_line(const float &x, const float &y, const float &z, const floa
   long target[4];
   target[X_AXIS] = lround(x*axis_steps_per_unit[X_AXIS]);
   target[Y_AXIS] = lround(y*axis_steps_per_unit[Y_AXIS]);
-  target[Z_AXIS] = lround(z*axis_steps_per_unit[Z_AXIS]);     
+  target[Z_AXIS] = lround(z*axis_steps_per_unit[Z_AXIS]);
+
+// AR 5/5/17
+  target[X2_AXIS] = lround(x2*axis_steps_per_unit[X2_AXIS]);
+  target[Z2_AXIS] = lround(z2*axis_steps_per_unit[Z2_AXIS]);
+  
   //if(g_bioprint_flag) {
   //  target[E_AXIS] = 1; // SL Note:  Bioprint extruders have different calculation for e value
   //}
@@ -1080,24 +1085,33 @@ vector_3 plan_get_position() {
 #endif // ENABLE_AUTO_BED_LEVELING
 
 #ifdef ENABLE_AUTO_BED_LEVELING
-void plan_set_position(float x, float y, float z, const float &e)
+void plan_set_position(float x, float y, float z, const float &e, float x2, float z2)
 {
   apply_rotation_xyz(plan_bed_level_matrix, x, y, z);
 #else
-void plan_set_position(const float &x, const float &y, const float &z, const float &e)
+void plan_set_position(const float &x, const float &y, const float &z, const float &e, const float &x2, const float &z2)
 {
 #endif // ENABLE_AUTO_BED_LEVELING
 
   position[X_AXIS] = lround(x*axis_steps_per_unit[X_AXIS]);
   position[Y_AXIS] = lround(y*axis_steps_per_unit[Y_AXIS]);
   position[Z_AXIS] = lround(z*axis_steps_per_unit[Z_AXIS]);     
-  position[E_AXIS] = lround(e*axis_steps_per_unit[E_AXIS]);  
-  st_set_position(position[X_AXIS], position[Y_AXIS], position[Z_AXIS], position[E_AXIS]);
+  position[E_AXIS] = lround(e*axis_steps_per_unit[E_AXIS]);
+  // AR 5/5
+  position[X2_AXIS] = lround(x2*axis_steps_per_unit[X2_AXIS]);
+  position[Z2_AXIS] = lround(z2*axis_steps_per_unit[Z2_AXIS]);
+  //////////////
+  
+  st_set_position(position[X_AXIS], position[Y_AXIS], position[Z_AXIS], position[E_AXIS], position[X2_AXIS], position[Z2_AXIS]);
   previous_nominal_speed = 0.0; // Resets planner junction speeds. Assumes start from rest.
   previous_speed[0] = 0.0;
   previous_speed[1] = 0.0;
   previous_speed[2] = 0.0;
   previous_speed[3] = 0.0;
+  
+  //AR 5/5
+  previous_speed[4] = 0.0;
+  previous_speed[5] = 0.0;
 }
 
 void plan_set_e_position(const float &e)

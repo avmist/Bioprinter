@@ -1080,13 +1080,17 @@ void st_synchronize()
   }
 }
 
-void st_set_position(const long &x, const long &y, const long &z, const long &e)
+void st_set_position(const long &x, const long &y, const long &z, const long &e, const long &x2, const long &z2)
 {
   CRITICAL_SECTION_START;
   count_position[X_AXIS] = x;
   count_position[Y_AXIS] = y;
   count_position[Z_AXIS] = z;
   count_position[E_AXIS] = e;
+  
+  //AR 5/5
+  count_position[X2_AXIS] = x2;
+  count_position[Z2_AXIS] = z2;
   CRITICAL_SECTION_END;
 }
 

@@ -83,19 +83,19 @@ void plan_init();
 // millimaters. Feed rate specifies the speed of the motion.
 
 #ifdef ENABLE_AUTO_BED_LEVELING
-void plan_buffer_line(float x, float y, float z, const float &e, float feed_rate, const uint8_t &extruder);
+void plan_buffer_line(float x, float y, float z, const float &e, float feed_rate, const uint8_t &extruder, float x2, float z2);
 
 // Get the position applying the bed level matrix if enabled
 vector_3 plan_get_position();
 #else
-void plan_buffer_line(const float &x, const float &y, const float &z, const float &e, float feed_rate, const uint8_t &extruder);
+void plan_buffer_line(const float &x, const float &y, const float &z, const float &e, float feed_rate, const uint8_t &extruder, const float &x2, const float &z2);
 #endif // ENABLE_AUTO_BED_LEVELING
 
 // Set position. Used for G92 instructions.
 #ifdef ENABLE_AUTO_BED_LEVELING
-void plan_set_position(float x, float y, float z, const float &e);
+void plan_set_position(float x, float y, float z, const float &e, float x2, float z2);
 #else
-void plan_set_position(const float &x, const float &y, const float &z, const float &e);
+void plan_set_position(const float &x, const float &y, const float &z, const float &e, const float &x2, const float &z2);
 #endif // ENABLE_AUTO_BED_LEVELING
 
 void plan_set_e_position(const float &e);
