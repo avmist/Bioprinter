@@ -898,6 +898,18 @@
 #define E0_DIR_PIN          34
 #define E0_ENABLE_PIN       30
 
+//AR 5/5
+#define Z2_STEP_PIN         37
+#define Z2_DIR_PIN          40
+#define Z2_ENABLE_PIN       36
+#define Z2_MIN_PIN          -1
+
+#define X2_STEP_PIN         -1
+#define X2_DIR_PIN          -1
+#define X2_ENABLE_PIN       -1
+#define X2_MIN_PIN          -1
+
+////////
 #define SDPOWER            48
 #define SDSS               53
 #define LED_PIN            13
@@ -2987,7 +2999,7 @@ DaveX plan for Teensylu/printrboard-type pinouts (ref teensylu & sprinter) for a
 #define Z_MIN_PIN          -1
 #endif
 
-#define SENSITIVE_PINS {0, 1, X_STEP_PIN, X_DIR_PIN, X_ENABLE_PIN, X_MIN_PIN, X_MAX_PIN, Y_STEP_PIN, Y_DIR_PIN, Y_ENABLE_PIN, Y_MIN_PIN, Y_MAX_PIN, Z_STEP_PIN, Z_DIR_PIN, Z_ENABLE_PIN, Z_MIN_PIN, Z_MAX_PIN, PS_ON_PIN, \
+#define SENSITIVE_PINS {0, 1, X_STEP_PIN, X_DIR_PIN, X_ENABLE_PIN, X_MIN_PIN, X_MAX_PIN, Y_STEP_PIN, Y_DIR_PIN, Y_ENABLE_PIN, Y_MIN_PIN, Y_MAX_PIN, Z_STEP_PIN, Z_DIR_PIN, Z_ENABLE_PIN, Z_MIN_PIN, Z_MAX_PIN, PS_ON_PIN, X2_STEP_PIN, X2_DIR_PIN, X2_ENABLE_PIN, X2_MIN_PIN, Z2_STEP_PIN, Z2_DIR_PIN, Z2_ENABLE_PIN, Z2_MIN_PIN\
                         HEATER_BED_PIN, FAN_PIN,                  \
                         _E0_PINS _E1_PINS _E2_PINS             \
                         analogInputToDigitalPin(TEMP_0_PIN), analogInputToDigitalPin(TEMP_1_PIN), analogInputToDigitalPin(TEMP_2_PIN), analogInputToDigitalPin(TEMP_BED_PIN) }

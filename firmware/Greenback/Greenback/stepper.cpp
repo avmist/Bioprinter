@@ -363,6 +363,7 @@ ISR(TIMER1_COMPA_vect)
       #ifdef Z_LATE_ENABLE
         if(current_block->steps_z > 0) {
           enable_z();
+          MYSERIAL.println("called in stepper.cpp:366");
           OCR1A = 2000; //1ms wait
           return;
         }
@@ -1217,6 +1218,7 @@ void babystep(const uint8_t axis,const bool direction)
   case Z_AXIS:
   {
     enable_z();
+    MYSERIAL.println("called in planner.cpp:690");
     uint8_t old_z_dir_pin= READ(Z_DIR_PIN);  //if dualzstepper, both point to same direction.
     //setup new step
     WRITE(Z_DIR_PIN,(INVERT_Z_DIR)^direction^BABYSTEP_INVERT_Z);
@@ -1248,7 +1250,7 @@ void babystep(const uint8_t axis,const bool direction)
 #else //DELTA
   case Z_AXIS:
   {
-    MYSERIAL.println("this is called in stepper.cpp:1247");
+    MYSERIAL.println("called in stepper.cpp:1253");
     enable_x();
     enable_y();
     enable_z();

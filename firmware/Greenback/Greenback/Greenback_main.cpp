@@ -1429,17 +1429,24 @@ void process_commands()
 #endif
   if(code_seen('G'))
   {
-    MYSERIAL.println("seen G " + (int)code_value());
-  
+    MYSERIAL.print("Code Value: ");
+    MYSERIAL.println((int)code_value());
+    
     switch((int)code_value())
     {
     case 0: // G0 -> G1
     case 1: // G1
+      MYSERIAL.println("Entered Case 1");
       if(Stopped == false) {
         get_coordinates(); // For X Y Z E X2 Z2 F
+        MYSERIAL.println("Got coordinates");
           #ifdef FWRETRACT
+            MYSERIAL.println("FWR Defined");
             if(autoretract_enabled)
+            MYSERIAL.println("autoretract enabled");
             if( !(code_seen('X') || code_seen('Y') || code_seen('Z')) && code_seen('E')) {
+              //AR 5/5
+              MYSERIAL.println("seen G " + (int)code_value());
               float echange=destination[E_AXIS]-current_position[E_AXIS];
               if((echange<-MIN_RETRACT && !retracted) || (echange>MIN_RETRACT && retracted)) { //move appears to be an attempt to retract or recover
                   current_position[E_AXIS] = destination[E_AXIS]; //hide the slicer-generated retract/recover from calculations
@@ -4199,12 +4206,20 @@ void ClearToSend()
 
 void get_coordinates()
 {
-  bool seen[4]={false,false,false,false};
+  bool seen[6]={false,false,false,false,false,false};
   for(int8_t i=0; i < NUM_AXIS; i++) {
     if(code_seen(axis_codes[i]))
     {
       // SL Note: Since the bioprint steppers are not directly controlled from
       // the RAMPS board, the destination for code_seen='E' is overrided in the
+      
+      //AR 5/5 - THIS IS A PROBLEM FOR DUAL GANTRY
+      /////////////////////////////////////////////
+      //*********************************************
+      
+      // Will likely need the addition of another axis: 'MK8_E'
+      // to distinct bioextruder from extruder
+      
       // case of g_bioprint_flag = true
       //SERIAL_ECHO("axis_codes[i]: ");
       //SERIAL_ECHOLN(axis_codes[i]);

@@ -483,10 +483,10 @@ void check_axes_activity()
     }
   }
   if((DISABLE_X) && (x_active == 0)) disable_x();
-  //if((DISABLE_X2) && (x2_active == 0)) disable_x2();
+  if((DISABLE_X2) && (x2_active == 0)) disable_x2();
   if((DISABLE_Y) && (y_active == 0)) disable_y();
   if((DISABLE_Z) && (z_active == 0)) disable_z();
-  //if((DISABLE_Z2) && (z2_active == 0)) disable_z2();
+  if((DISABLE_Z2) && (z2_active == 0)) disable_z2();
   if((DISABLE_E) && (e_active == 0))
   {
     disable_e0();
@@ -606,6 +606,10 @@ void plan_buffer_line(const float &x, const float &y, const float &z, const floa
 // default non-h-bot planning
 block->steps_x = labs(target[X_AXIS]-position[X_AXIS]);
 block->steps_y = labs(target[Y_AXIS]-position[Y_AXIS]);
+
+//AR 5/5
+block->steps_x2 = labs(target[X2_AXIS]-position[X2_AXIS]);
+///////////
 #else
 // corexy planning
 // these equations follow the form of the dA and dB equations on http://www.corexy.com/theory.html
@@ -613,6 +617,10 @@ block->steps_x = labs((target[X_AXIS]-position[X_AXIS]) + (target[Y_AXIS]-positi
 block->steps_y = labs((target[X_AXIS]-position[X_AXIS]) - (target[Y_AXIS]-position[Y_AXIS]));
 #endif
   block->steps_z = labs(target[Z_AXIS]-position[Z_AXIS]);
+  
+  //AR 5/5
+  block->steps_z2 = labs(target[Z2_AXIS]-position[Z2_AXIS]);
+  ////////////
   if(!g_bioprint_flag){
     block->steps_e = labs(target[E_AXIS]-position[E_AXIS]);
     block->steps_e *= volumetric_multiplier[active_extruder];
@@ -649,6 +657,13 @@ block->steps_y = labs((target[X_AXIS]-position[X_AXIS]) - (target[Y_AXIS]-positi
   {
     block->direction_bits |= (1<<Y_AXIS); 
   }
+  
+  //AR 5/5
+  if (target[X2_AXIS] < position[X2_AXIS])
+  {
+    block->direction_bits |= (1<<X2_AXIS); 
+  }
+  ///////////
 #else
   if ((target[X_AXIS]-position[X_AXIS]) + (target[Y_AXIS]-position[Y_AXIS]) < 0)
   {
@@ -663,6 +678,14 @@ block->steps_y = labs((target[X_AXIS]-position[X_AXIS]) - (target[Y_AXIS]-positi
   {
     block->direction_bits |= (1<<Z_AXIS); 
   }
+  
+  //AR 5/5
+  if (target[Z2_AXIS] < position[Z2_AXIS])
+  {
+    block->direction_bits |= (1<<Z2_AXIS); 
+  }
+  //////////////
+  
   if (target[E_AXIS] < position[E_AXIS])
   {
     block->direction_bits |= (1<<E_AXIS); 
@@ -674,19 +697,24 @@ block->steps_y = labs((target[X_AXIS]-position[X_AXIS]) - (target[Y_AXIS]-positi
   #ifdef COREXY
     if((block->steps_x != 0) || (block->steps_y != 0))
     {
-      MYSERIAL.println("this is called in planner.cpp:666");
+      MYSERIAL.println("called in planner.cpp:677");
       enable_x();
       enable_y();
     }
   #else
     if(block->steps_x != 0){
       enable_x();
-      MYSERIAL.println("this is called in planner.cpp:672");
+      MYSERIAL.println("called in planner.cpp:684");
+    }
+    if(block->steps_x2 != 0){
+      enable_x2();
+      MYSERIAL.println("X2 enabled in planner.cpp: 688");
     }
     if(block->steps_y != 0) enable_y();
   #endif
 #ifndef Z_LATE_ENABLE
   if(block->steps_z != 0) enable_z();
+  MYSERIAL.println("called in planner.cpp:694");
 #endif
 
   // Enable extruder(s)
@@ -695,6 +723,7 @@ block->steps_y = labs((target[X_AXIS]-position[X_AXIS]) - (target[Y_AXIS]-positi
     disable_e0();
     disable_e1();
     disable_e2();
+    MYSERIAL.println("All RAMPS extruders have been disables by bioprint: planner.cpp 699");
   }
   else {
     if(block->steps_e != 0)
