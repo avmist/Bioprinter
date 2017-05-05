@@ -1430,7 +1430,7 @@ void process_commands()
     case 0: // G0 -> G1
     case 1: // G1
       if(Stopped == false) {
-        get_coordinates(); // For X Y Z E F
+        get_coordinates(); // For X Y Z E X2 Z2 F
           #ifdef FWRETRACT
             if(autoretract_enabled)
             if( !(code_seen('X') || code_seen('Y') || code_seen('Z')) && code_seen('E')) {
@@ -1664,7 +1664,7 @@ void process_commands()
 #else // NOT DELTA
 
     #ifdef BIOSUPPORT                       /* SL Note: Raise print head to clear print container before homing */
-        get_coordinates(); // For X Y Z E F
+        get_coordinates(); // For X Y Z E X2 Z2 F
         feedrate = 300;
         // Move all carriages up together until the first endstop is hit.
         //current_position[X_AXIS] = 0;
@@ -1679,6 +1679,12 @@ void process_commands()
         destination[Y_AXIS] = current_position[Y_AXIS];
         //destination[Z_AXIS] = current_position[Z_AXIS];
         destination[Z_AXIS] = 20 + (relative_mode)*current_position[Z_AXIS];
+        
+        //AR 5/4/17
+        destination[X2_AXIS] = current_position[X2_AXIS];
+        destination[Z2_AXIS] = current_position[Z2_AXIS];
+        /////////////////////////////////////////////////
+        
         plan_buffer_line(destination[X_AXIS], destination[Y_AXIS], destination[Z_AXIS], current_position[E_AXIS], feedrate/60, active_extruder);
         st_synchronize();
         //endstops_hit_on_purpose();
@@ -1686,7 +1692,12 @@ void process_commands()
         current_position[X_AXIS] = destination[X_AXIS];
         current_position[Y_AXIS] = destination[Y_AXIS];
         current_position[Z_AXIS] = destination[Z_AXIS];
-
+        
+        //AR 5/4/17
+        current_position[X2_AXIS] = destination[X2_AXIS];
+        current_position[Z2_AXIS] = destination[Z2_AXIS];
+        ////////////////////////
+        
         enable_endstops(true);
         HOMEAXIS(X);
         HOMEAXIS(Y);
