@@ -78,11 +78,11 @@ bool abort_on_endstop_hit = false;
 #endif
 
 static bool old_x_min_endstop=false;
-static bool old_x_max_endstop=false;
+static bool old_x2_min_endstop=false;
 static bool old_y_min_endstop=false;
 static bool old_y_max_endstop=false;
 static bool old_z_min_endstop=false;
-static bool old_z_max_endstop=false;
+static bool old_z2_min_endstop=false;
 
 static bool check_endstops = true;
 

@@ -244,11 +244,11 @@ extern float delta_segments_per_second;
 void recalc_delta_settings(float radius, float diagonal_rod);
 #endif
 #ifdef SCARA
-extern float axis_scaling[3];  // Build size scaling
+extern float axis_scaling[5];  // Build size scaling
 #endif
-extern float min_pos[3];
+extern float min_pos[5];
 extern float max_pos[3];
-extern bool axis_known_position[3];
+extern bool axis_known_position[5];
 extern float zprobe_zoffset;
 extern int fanSpeed;
 #ifdef BARICUDA

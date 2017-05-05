@@ -239,15 +239,15 @@ float volumetric_multiplier[EXTRUDERS] = {1.0
     #endif
   #endif
 };
-float current_position[NUM_AXIS] = { 0.0, 0.0, 0.0, 0.0 };
+float current_position[NUM_AXIS] = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
 float add_homing[3]={0,0,0};
 #ifdef DELTA
 float endstop_adj[3]={0,0,0};
 #endif
 
-float min_pos[3] = { X_MIN_POS, Y_MIN_POS, Z_MIN_POS };
+float min_pos[5] = { X_MIN_POS, Y_MIN_POS, Z_MIN_POS, X2_MIN_POS, Z2_MIN_POS };
 float max_pos[3] = { X_MAX_POS, Y_MAX_POS, Z_MAX_POS };
-bool axis_known_position[3] = {false, false, false};
+bool axis_known_position[5] = {false, false, false, false, false};
 float zprobe_zoffset;
 
 // Extruder offset
@@ -352,8 +352,8 @@ const char echomagic[] PROGMEM = "echo:";
 //===========================================================================
 //=============================Private Variables=============================
 //===========================================================================
-const char axis_codes[NUM_AXIS] = {'X', 'Y', 'Z', 'E'};
-static float destination[NUM_AXIS] = {  0.0, 0.0, 0.0, 0.0};
+const char axis_codes[NUM_AXIS] = {'X', 'Y', 'Z', 'E', '2X', '2Z'};
+static float destination[NUM_AXIS] = {  0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
 
 #ifndef DELTA
 static float delta[3] = {0.0, 0.0, 0.0};
