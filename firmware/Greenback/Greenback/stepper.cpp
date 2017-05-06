@@ -686,7 +686,13 @@ ISR(TIMER1_COMPA_vect)
           WRITE(X_STEP_PIN, INVERT_X_STEP_PIN);
         #endif
         }
-
+      // Move in the X2 direction
+      if (counter_x2 > 0) {
+        WRITE(X2_STEP_PIN, !INVERT_X2_STEP_PIN);
+        counter_x2 -= current_block->step_event_count;
+        count_position[X2_AXIS]+=count_direction[X2_AXIS];
+        WRITE(X2_STEP_PIN, INVERT_X2_STEP_PIN);
+      }
       // Move in the Y direction
         counter_y += current_block->steps_y;
         if (counter_y > 0) {
@@ -721,6 +727,16 @@ ISR(TIMER1_COMPA_vect)
         #ifdef Z_DUAL_STEPPER_DRIVERS
           WRITE(Z2_STEP_PIN, INVERT_Z_STEP_PIN);
         #endif
+      }
+      
+      // Move in the Z2 direction
+      counter_z2 += current_block->steps_z2;
+      if (counter_z2 > 0) {
+        WRITE(Z2_STEP_PIN, !INVERT_Z2_STEP_PIN);
+
+        counter_z2 -= current_block->step_event_count;
+        count_position[Z2_AXIS]+=count_direction[Z2_AXIS];
+        WRITE(Z2_STEP_PIN, INVERT_Z2_STEP_PIN);
       }
 
       // Extrude Controller
