@@ -49,8 +49,10 @@ block_t *current_block;  // A pointer to the block currently being traced
 // Variables used by The Stepper Driver Interrupt
 static unsigned char out_bits;        // The next stepping-bits to be output
 static long counter_x,       // Counter variables for the bresenham line tracer
+            counter_x2,
             counter_y,
             counter_z,
+            counter_z2,
             counter_e;
 volatile static unsigned long step_events_completed; // The number of step events executed in the current block
 #ifdef ADVANCE
@@ -86,8 +88,8 @@ static bool old_z2_min_endstop=false;
 
 static bool check_endstops = true;
 
-volatile long count_position[NUM_AXIS] = { 0, 0, 0, 0};
-volatile signed char count_direction[NUM_AXIS] = { 1, 1, 1, 1};
+volatile long count_position[NUM_AXIS] = { 0, 0, 0, 0, 0, 0};
+volatile signed char count_direction[NUM_AXIS] = { 1, 1, 1, 1, 1, 1};
 
 // SL Note: FLAG to determine if the bio print head should be extruding, used in stepper.cpp - ISR
 volatile bool bio_latchOn_FLAG = false; 
@@ -686,6 +688,8 @@ ISR(TIMER1_COMPA_vect)
           WRITE(X_STEP_PIN, INVERT_X_STEP_PIN);
         #endif
         }
+        
+      // AR 5/6
       // Move in the X2 direction
       if (counter_x2 > 0) {
         WRITE(X2_STEP_PIN, !INVERT_X2_STEP_PIN);
@@ -693,6 +697,7 @@ ISR(TIMER1_COMPA_vect)
         count_position[X2_AXIS]+=count_direction[X2_AXIS];
         WRITE(X2_STEP_PIN, INVERT_X2_STEP_PIN);
       }
+      
       // Move in the Y direction
         counter_y += current_block->steps_y;
         if (counter_y > 0) {
@@ -729,6 +734,7 @@ ISR(TIMER1_COMPA_vect)
         #endif
       }
       
+      //AR 5/6
       // Move in the Z2 direction
       counter_z2 += current_block->steps_z2;
       if (counter_z2 > 0) {
