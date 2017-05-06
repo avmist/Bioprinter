@@ -618,7 +618,7 @@
     #define X_DIR_PIN          55
     #define X_ENABLE_PIN       38
     #define X_MIN_PIN           3
-    #define X_MAX_PIN           2
+    //#define X_MAX_PIN           2
 
     #define Y_STEP_PIN         60
     #define Y_DIR_PIN          61
@@ -630,23 +630,29 @@
     #define Z_DIR_PIN          48
     #define Z_ENABLE_PIN       62
     #define Z_MIN_PIN          18
-    #define Z_MAX_PIN          19
+    //#define Z_MAX_PIN          19
 
-    #define Y2_STEP_PIN        36
-    #define Y2_DIR_PIN         34
-    #define Y2_ENABLE_PIN      30
-
-    #define Z2_STEP_PIN        36
-    #define Z2_DIR_PIN         34
-    #define Z2_ENABLE_PIN      30
+    //#define Y2_STEP_PIN        36
+    //#define Y2_DIR_PIN         34
+    //#define Y2_ENABLE_PIN      30
 
     #define E0_STEP_PIN        26
     #define E0_DIR_PIN         28
     #define E0_ENABLE_PIN      24
 
-    #define E1_STEP_PIN        36
-    #define E1_DIR_PIN         34
-    #define E1_ENABLE_PIN      30
+    //#define E1_STEP_PIN        36
+    //#define E1_DIR_PIN         34
+    //#define E1_ENABLE_PIN      30
+    
+    #define Z2_STEP_PIN         36
+    #define Z2_DIR_PIN          34
+    #define Z2_ENABLE_PIN       30
+    #define Z2_MIN_PIN          19
+
+    #define X2_STEP_PIN         -1
+    #define X2_DIR_PIN          -1
+    #define X2_ENABLE_PIN       -1
+    #define X2_MIN_PIN           2
 
 #if MB(RAMPS_13_EEB)  //FMM added for Filament Extruder
 #ifdef FILAMENT_SENSOR
@@ -2937,8 +2943,6 @@ DaveX plan for Teensylu/printrboard-type pinouts (ref teensylu & sprinter) for a
  #define encrot3 1
 
 #endif // CHEAPTRONIC
-
-
 
 #ifndef KNOWN_BOARD
 #error Unknown MOTHERBOARD value in configuration.h
