@@ -720,18 +720,11 @@ ISR(TIMER1_COMPA_vect)
       counter_z += current_block->steps_z;
       if (counter_z > 0) {
         WRITE(Z_STEP_PIN, !INVERT_Z_STEP_PIN);
-        
-        #ifdef Z_DUAL_STEPPER_DRIVERS
-          WRITE(Z2_STEP_PIN, !INVERT_Z_STEP_PIN);
-        #endif
 
         counter_z -= current_block->step_event_count;
         count_position[Z_AXIS]+=count_direction[Z_AXIS];
         WRITE(Z_STEP_PIN, INVERT_Z_STEP_PIN);
         
-        #ifdef Z_DUAL_STEPPER_DRIVERS
-          WRITE(Z2_STEP_PIN, INVERT_Z_STEP_PIN);
-        #endif
       }
       
       //AR 5/6
@@ -904,23 +897,23 @@ void st_init()
   #if defined(Y_DIR_PIN) && Y_DIR_PIN > -1
     SET_OUTPUT(Y_DIR_PIN);
 		
-	#if defined(Y_DUAL_STEPPER_DRIVERS) && defined(Y2_DIR_PIN) && (Y2_DIR_PIN > -1)
-	  SET_OUTPUT(Y2_DIR_PIN);
-	#endif
   #endif
   #if defined(Z_DIR_PIN) && Z_DIR_PIN > -1
     SET_OUTPUT(Z_DIR_PIN);
-
-    #if defined(Z_DUAL_STEPPER_DRIVERS) && defined(Z2_DIR_PIN) && (Z2_DIR_PIN > -1)
-      SET_OUTPUT(Z2_DIR_PIN);
-    #endif
   #endif
+  
+  #if defined(Z2_DIR_PIN) && Z2_DIR_PIN > -1
+    SET_OUTPUT(Z2_DIR_PIN);
+  #endif
+  
   #if defined(E0_DIR_PIN) && E0_DIR_PIN > -1
     SET_OUTPUT(E0_DIR_PIN);
   #endif
+  
   #if defined(E1_DIR_PIN) && (E1_DIR_PIN > -1)
     SET_OUTPUT(E1_DIR_PIN);
   #endif
+  
   #if defined(E2_DIR_PIN) && (E2_DIR_PIN > -1)
     SET_OUTPUT(E2_DIR_PIN);
   #endif
@@ -931,10 +924,12 @@ void st_init()
     SET_OUTPUT(X_ENABLE_PIN);
     if(!X_ENABLE_ON) WRITE(X_ENABLE_PIN,HIGH);
   #endif
+  
   #if defined(X2_ENABLE_PIN) && X2_ENABLE_PIN > -1
     SET_OUTPUT(X2_ENABLE_PIN);
-    if(!X_ENABLE_ON) WRITE(X2_ENABLE_PIN,HIGH);
+    if(!X2_ENABLE_ON) WRITE(X2_ENABLE_PIN,HIGH);
   #endif
+  
   #if defined(Y_ENABLE_PIN) && Y_ENABLE_PIN > -1
     SET_OUTPUT(Y_ENABLE_PIN);
     if(!Y_ENABLE_ON) WRITE(Y_ENABLE_PIN,HIGH);
@@ -947,16 +942,18 @@ void st_init()
   #if defined(Z_ENABLE_PIN) && Z_ENABLE_PIN > -1
     SET_OUTPUT(Z_ENABLE_PIN);
     if(!Z_ENABLE_ON) WRITE(Z_ENABLE_PIN,HIGH);
-
-    #if defined(Z_DUAL_STEPPER_DRIVERS) && defined(Z2_ENABLE_PIN) && (Z2_ENABLE_PIN > -1)
-      SET_OUTPUT(Z2_ENABLE_PIN);
-      if(!Z_ENABLE_ON) WRITE(Z2_ENABLE_PIN,HIGH);
-    #endif
   #endif
+  
+  #if defined(Z2_ENABLE_PIN) && (Z2_ENABLE_PIN > -1)
+      SET_OUTPUT(Z2_ENABLE_PIN);
+      if(!Z2_ENABLE_ON) WRITE(Z2_ENABLE_PIN,HIGH);
+  #endif
+  
   #if defined(E0_ENABLE_PIN) && (E0_ENABLE_PIN > -1)
     SET_OUTPUT(E0_ENABLE_PIN);
     if(!E_ENABLE_ON) WRITE(E0_ENABLE_PIN,HIGH);
   #endif
+  
   #if defined(E1_ENABLE_PIN) && (E1_ENABLE_PIN > -1)
     SET_OUTPUT(E1_ENABLE_PIN);
     if(!E_ENABLE_ON) WRITE(E1_ENABLE_PIN,HIGH);
@@ -989,10 +986,10 @@ void st_init()
     #endif
   #endif
 
-  #if defined(X_MAX_PIN) && X_MAX_PIN > -1
-    SET_INPUT(X_MAX_PIN);
-    #ifdef ENDSTOPPULLUP_XMAX
-      WRITE(X_MAX_PIN,HIGH);
+  #if defined(X2_MIN_PIN) && X2_MIN_PIN > -1
+    SET_INPUT(X2_MIN_PIN);
+    #ifdef ENDSTOPPULLUP_X2MIN
+      WRITE(X2_MIN_PIN,HIGH);
     #endif
   #endif
 
@@ -1003,13 +1000,12 @@ void st_init()
     #endif
   #endif
 
-  #if defined(Z_MAX_PIN) && Z_MAX_PIN > -1
-    SET_INPUT(Z_MAX_PIN);
-    #ifdef ENDSTOPPULLUP_ZMAX
-      WRITE(Z_MAX_PIN,HIGH);
+  #if defined(Z2_MIN_PIN) && Z2_MIN_PIN > -1
+    SET_INPUT(Z2_MIN_PIN);
+    #ifdef ENDSTOPPULLUP_Z2MIN
+      WRITE(Z2_MIN_PIN,HIGH);
     #endif
   #endif
-
 
   //Initialize Step Pins
   #if defined(X_STEP_PIN) && (X_STEP_PIN > -1)
@@ -1017,29 +1013,31 @@ void st_init()
     WRITE(X_STEP_PIN,INVERT_X_STEP_PIN);
     disable_x();
   #endif
+  
   #if defined(X2_STEP_PIN) && (X2_STEP_PIN > -1)
     SET_OUTPUT(X2_STEP_PIN);
-    WRITE(X2_STEP_PIN,INVERT_X_STEP_PIN);
-    disable_x();
+    WRITE(X2_STEP_PIN,INVERT_X2_STEP_PIN);
+    disable_x2();
   #endif
+  
   #if defined(Y_STEP_PIN) && (Y_STEP_PIN > -1)
     SET_OUTPUT(Y_STEP_PIN);
     WRITE(Y_STEP_PIN,INVERT_Y_STEP_PIN);
-    #if defined(Y_DUAL_STEPPER_DRIVERS) && defined(Y2_STEP_PIN) && (Y2_STEP_PIN > -1)
-      SET_OUTPUT(Y2_STEP_PIN);
-      WRITE(Y2_STEP_PIN,INVERT_Y_STEP_PIN);
-    #endif
     disable_y();
   #endif
+  
   #if defined(Z_STEP_PIN) && (Z_STEP_PIN > -1)
     SET_OUTPUT(Z_STEP_PIN);
     WRITE(Z_STEP_PIN,INVERT_Z_STEP_PIN);
-    #if defined(Z_DUAL_STEPPER_DRIVERS) && defined(Z2_STEP_PIN) && (Z2_STEP_PIN > -1)
-      SET_OUTPUT(Z2_STEP_PIN);
-      WRITE(Z2_STEP_PIN,INVERT_Z_STEP_PIN);
-    #endif
     disable_z();
   #endif
+  
+  #if defined(Z2_STEP_PIN) && (Z2_STEP_PIN > -1)
+      SET_OUTPUT(Z2_STEP_PIN);
+      WRITE(Z2_STEP_PIN,INVERT_Z2_STEP_PIN);
+      disable_z2();
+  #endif
+    
   #if defined(E0_STEP_PIN) && (E0_STEP_PIN > -1)
     SET_OUTPUT(E0_STEP_PIN);
     WRITE(E0_STEP_PIN,INVERT_E_STEP_PIN);

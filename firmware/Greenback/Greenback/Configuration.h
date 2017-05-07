@@ -289,8 +289,10 @@ your extruder heater takes 2 minutes to hit the target on heating.
   #define ENDSTOPPULLUP_YMAX
   #define ENDSTOPPULLUP_ZMAX
   #define ENDSTOPPULLUP_XMIN
+  #define ENDSTOPPULLUP_X2MIN
   #define ENDSTOPPULLUP_YMIN
   #define ENDSTOPPULLUP_ZMIN
+  #define ENDSTOPPULLUP_Z2MIN
 #endif
 
 // The pullups are needed if you directly connect a mechanical endswitch between the signal and ground pins.
