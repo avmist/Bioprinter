@@ -654,37 +654,14 @@ ISR(TIMER1_COMPA_vect)
         }
       #endif //!ADVANCE
 #else //CONFIG_STEPPERS_TOSHIBA
-
+      
+      MYSERIAL.println("Stepping Here");
       // Move in the X direction
         if (counter_x > 0) {
-        #ifdef DUAL_X_CARRIAGE
-          if (extruder_duplication_enabled){
-            WRITE(X_STEP_PIN, !INVERT_X_STEP_PIN);
-            WRITE(X2_STEP_PIN, !INVERT_X_STEP_PIN);
-          }
-          else {
-            if (current_block->active_extruder != 0)
-              WRITE(X2_STEP_PIN, !INVERT_X_STEP_PIN);
-            else
-              WRITE(X_STEP_PIN, !INVERT_X_STEP_PIN);
-          }
-        #else
-          WRITE(X_STEP_PIN, !INVERT_X_STEP_PIN);
-        #endif        
+        
+          WRITE(X_STEP_PIN, !INVERT_X_STEP_PIN);       
           counter_x -= current_block->step_event_count;
           count_position[X_AXIS]+=count_direction[X_AXIS];   
-        #ifdef DUAL_X_CARRIAGE
-          if (extruder_duplication_enabled){
-            WRITE(X_STEP_PIN, INVERT_X_STEP_PIN);
-            WRITE(X2_STEP_PIN, INVERT_X_STEP_PIN);
-          }
-          else {
-            if (current_block->active_extruder != 0)
-              WRITE(X2_STEP_PIN, INVERT_X_STEP_PIN);
-            else
-              WRITE(X_STEP_PIN, INVERT_X_STEP_PIN);
-          }
-        #else
           WRITE(X_STEP_PIN, INVERT_X_STEP_PIN);
         #endif
         }
@@ -703,17 +680,10 @@ ISR(TIMER1_COMPA_vect)
         if (counter_y > 0) {
           WRITE(Y_STEP_PIN, !INVERT_Y_STEP_PIN);
 		  
-		  #ifdef Y_DUAL_STEPPER_DRIVERS
-			WRITE(Y2_STEP_PIN, !INVERT_Y_STEP_PIN);
-		  #endif
-		  
           counter_y -= current_block->step_event_count;
           count_position[Y_AXIS]+=count_direction[Y_AXIS];
           WRITE(Y_STEP_PIN, INVERT_Y_STEP_PIN);
 		  
-		  #ifdef Y_DUAL_STEPPER_DRIVERS
-			WRITE(Y2_STEP_PIN, INVERT_Y_STEP_PIN);
-		  #endif
         }
 
       // Move in the Z direction
@@ -1143,8 +1113,10 @@ void finishAndDisableSteppers()
 {
   st_synchronize();
   disable_x();
+  disable_x2();
   disable_y();
   disable_z();
+  disable_z2();
   disable_e0();
   disable_e1();
   disable_e2();
@@ -1161,16 +1133,16 @@ void quickStop()
 
 #ifdef BABYSTEPPING
 
-
 void babystep(const uint8_t axis,const bool direction)
 {
+  MYSERIAL.println("babystepping4");
   //MUST ONLY BE CALLED BY A ISR, it depends on that no other ISR interrupts this
     //store initial pin states
   switch(axis)
   {
   case X_AXIS:
   {
-    MYSERIAL.println("this is called in stepper.cpp:1148");
+    MYSERIAL.println("babystepping X in stepper.cpp: 1174");
     enable_x();   
     uint8_t old_x_dir_pin= READ(X_DIR_PIN);  //if dualzstepper, both point to same direction.
    
@@ -1238,7 +1210,7 @@ void babystep(const uint8_t axis,const bool direction)
   case Z_AXIS:
   {
     enable_z();
-    MYSERIAL.println("called in planner.cpp:690");
+    MYSERIAL.println("babystepping Z in stepper.cpp: 1242");
     uint8_t old_z_dir_pin= READ(Z_DIR_PIN);  //if dualzstepper, both point to same direction.
     //setup new step
     WRITE(Z_DIR_PIN,(INVERT_Z_DIR)^direction^BABYSTEP_INVERT_Z);
@@ -1270,7 +1242,6 @@ void babystep(const uint8_t axis,const bool direction)
 #else //DELTA
   case Z_AXIS:
   {
-    MYSERIAL.println("called in stepper.cpp:1253");
     enable_x();
     enable_y();
     enable_z();
@@ -1374,12 +1345,20 @@ void microstep_init()
   pinMode(Z_MS2_PIN,OUTPUT);
   pinMode(E0_MS1_PIN,OUTPUT);
   pinMode(E0_MS2_PIN,OUTPUT);
+  
+  //AR 5/7
+  pinMode(X2_MS1_PIN,OUTPUT);
+  pinMode(X2_MS2_PIN,OUTPUT);
+  pinMode(Z2_MS1_PIN,OUTPUT);
+  pinMode(Z2_MS2_PIN,OUTPUT);
+  
   for(int i=0;i<=4;i++) microstep_mode(i,microstep_modes[i]);
   #endif
 }
 
 void microstep_ms(uint8_t driver, int8_t ms1, int8_t ms2)
 {
+  MYSERIAL.println("microstepping called");
   if(ms1 > -1) switch(driver)
   {
     case 0: digitalWrite( X_MS1_PIN,ms1); break;
@@ -1429,6 +1408,15 @@ void microstep_readings()
       SERIAL_PROTOCOLPGM("E0: ");
       SERIAL_PROTOCOL(   digitalRead(E0_MS1_PIN));
       SERIAL_PROTOCOLLN( digitalRead(E0_MS2_PIN));
+      
+      //AR 5/7
+      SERIAL_PROTOCOLPGM("2X: ");
+      //SERIAL_PROTOCOL(   digitalRead(X2_MS1_PIN));
+      //SERIAL_PROTOCOLLN( digitalRead(X2_MS2_PIN));
+      SERIAL_PROTOCOLPGM("2Z: ");
+      //SERIAL_PROTOCOL(   digitalRead(Z2_MS1_PIN));
+      //SERIAL_PROTOCOLLN( digitalRead(Z2_MS2_PIN));
+      
       #if defined(E1_MS1_PIN) && E1_MS1_PIN > -1
       SERIAL_PROTOCOLPGM("E1: ");
       SERIAL_PROTOCOL(   digitalRead(E1_MS1_PIN));
