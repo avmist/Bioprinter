@@ -100,8 +100,6 @@ void plan_set_position(const float &x, const float &y, const float &z, const flo
 
 void plan_set_e_position(const float &e);
 
-
-
 void check_axes_activity();
 uint8_t movesplanned(); //return the nr of buffered moves
 
@@ -124,9 +122,6 @@ extern unsigned long axis_steps_per_sqr_second[NUM_AXIS];
     extern float autotemp_min;
     extern float autotemp_factor;
 #endif
-
-    
-
 
 extern block_t block_buffer[BLOCK_BUFFER_SIZE];            // A ring buffer for motion instructions
 extern volatile unsigned char block_buffer_head;           // Index of the next block to be pushed

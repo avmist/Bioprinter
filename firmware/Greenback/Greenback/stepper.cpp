@@ -72,6 +72,11 @@ volatile long endstops_stepsTotal,endstops_stepsDone;
 static volatile bool endstop_x_hit=false;
 static volatile bool endstop_y_hit=false;
 static volatile bool endstop_z_hit=false;
+
+//AR 5/7
+static volatile bool endstop_x2_hit=false;
+static volatile bool endstop_z2_hit=false;
+
 #ifdef ABORT_ON_ENDSTOP_HIT_FEATURE_ENABLED
 bool abort_on_endstop_hit = false;
 #endif
@@ -327,8 +332,10 @@ ISR(TIMER1_COMPA_vect)
       current_block->busy = true;
       trapezoid_generator_reset();
       counter_x = -(current_block->step_event_count >> 1);
+      counter_x2 = counter_x;
       counter_y = counter_x;
       counter_z = counter_x;
+      counter_z2 = counter_x;
       counter_e = counter_x;
       // SL Note: This section defines when material is extruded, definitions in stepper.h
       // current_block->steps_e is set in planner.cpp - plan_buffer_line() 
@@ -365,7 +372,6 @@ ISR(TIMER1_COMPA_vect)
       #ifdef Z_LATE_ENABLE
         if(current_block->steps_z > 0) {
           enable_z();
-          MYSERIAL.println("called in stepper.cpp:366");
           OCR1A = 2000; //1ms wait
           return;
         }
@@ -655,7 +661,7 @@ ISR(TIMER1_COMPA_vect)
       #endif //!ADVANCE
 #else //CONFIG_STEPPERS_TOSHIBA
       
-      MYSERIAL.println("Stepping Here");
+      //MYSERIAL.println("Stepping Here");
       // Move in the X direction
         if (counter_x > 0) {
         
@@ -719,7 +725,6 @@ ISR(TIMER1_COMPA_vect)
             WRITE_E_STEP(INVERT_E_STEP_PIN);
         }
       #endif //!ADVANCE
-      #endif
 
       step_events_completed += 1; //Increment step_events_completed by +1
       if(step_events_completed >= current_block->step_event_count) {
