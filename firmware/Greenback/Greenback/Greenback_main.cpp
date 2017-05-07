@@ -240,9 +240,9 @@ float volumetric_multiplier[EXTRUDERS] = {1.0
   #endif
 };
 float current_position[NUM_AXIS] = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
-float add_homing[3]={0,0,0};
+float add_homing[5]={0,0,0,0,0};
 #ifdef DELTA
-float endstop_adj[3]={0,0,0};
+float endstop_adj[5]={0,0,0,0,0};
 #endif
 
 float min_pos[5] = { X_MIN_POS, Y_MIN_POS, Z_MIN_POS, X2_MIN_POS, Z2_MIN_POS };
@@ -278,7 +278,7 @@ int EtoPPressure=0;
 #ifdef FWRETRACT
   bool autoretract_enabled=false;
   bool retracted[EXTRUDERS]={false
-    #if EXTRUDERS > 1
+  #if EXTRUDERS > 1
     , false
      #if EXTRUDERS > 2
       , false
@@ -392,7 +392,6 @@ unsigned long stoptime=0;
 
 static uint8_t tmp_extruder;
 
-
 bool Stopped=false;
 
 #if NUM_SERVOS > 0
@@ -494,7 +493,6 @@ void setup_homepin(void)
 #endif
 }
 
-
 void setup_photpin()
 {
   #if defined(PHOTOGRAPH_PIN) && PHOTOGRAPH_PIN > -1
@@ -567,10 +565,10 @@ void setup()
   // Ava's shit
   //************************************
 
-   pinMode(Z2_STEP_PIN  , OUTPUT);
-  pinMode(Z2_DIR_PIN    , OUTPUT);
-  pinMode(Z2_ENABLE_PIN    , OUTPUT);
-  digitalWrite(Z2_ENABLE_PIN, HIGH);
+  //pinMode(Z2_STEP_PIN  , OUTPUT);
+  //pinMode(Z2_DIR_PIN    , OUTPUT);
+  //pinMode(Z2_ENABLE_PIN    , OUTPUT);
+  //digitalWrite(Z2_ENABLE_PIN, HIGH);
   //************************************
 
   setup_killpin();
@@ -638,14 +636,12 @@ void setup()
 #endif // Z_PROBE_SLED
   setup_homepin();
 
-
   #ifdef BIOSUPPORT
     #ifdef BIOEXTRUDERS
       //SL Note:
       pinMode(B0_PIN, OUTPUT);
       //SL Note END
     #endif //BIOEXTRUDERS
-
 
     // SL Note: Setup SPI comms for bioprinter
     #ifndef SDSUPPORT // If the SD card is not supported, then the SPI needs to be set up
@@ -658,7 +654,6 @@ void setup()
   #endif //BIOSUPPORT
 
 }
-
 
 void loop(){
   if(buflen < (BUFSIZE-1))
@@ -900,7 +895,6 @@ void get_command()
 
 }
 
-
 float code_value()
 {
   return (strtod(&cmdbuffer[bufindr][strchr_pointer - cmdbuffer[bufindr] + 1], NULL));
@@ -964,6 +958,17 @@ static float x_home_pos(int extruder) {
     return (extruder_offset[X_AXIS][1] > 0) ? extruder_offset[X_AXIS][1] : X2_HOME_POS;
 }
 
+/*static float x2_home_pos(int extruder) {
+  if (extruder == 0)
+    return base_home_pos(X2_AXIS) + add_homing[X2_AXIS];
+  else
+    // In dual carriage mode the extruder offset provides an override of the
+    // second X-carriage offset when homed - otherwise X2_HOME_POS is used.
+    // This allow soft recalibration of the second extruder offset position without firmware reflash
+    // (through the M218 command).
+    return (extruder_offset[X2_AXIS][1] > 0) ? extruder_offset[X2_AXIS][1] : X2_HOME_POS;
+}
+*/
 static int x_home_dir(int extruder) {
   return (extruder == 0) ? X_HOME_DIR : X2_HOME_DIR;
 }
@@ -4337,22 +4342,22 @@ void prepare_move()
 
   #ifdef SCARA //for now same as delta-code
 
-float difference[NUM_AXIS];
-for (int8_t i=0; i < NUM_AXIS; i++) {
-	difference[i] = destination[i] - current_position[i];
-}
+  float difference[NUM_AXIS];
 
-float cartesian_mm = sqrt(	sq(difference[X_AXIS]) +
-							sq(difference[Y_AXIS]) +
-							sq(difference[Z_AXIS]));
-if (cartesian_mm < 0.000001) { cartesian_mm = abs(difference[E_AXIS]); }
-if (cartesian_mm < 0.000001) { return; }
-float seconds = 6000 * cartesian_mm / feedrate / feedmultiply;
-int steps = max(1, int(scara_segments_per_second * seconds));
+  for (int8_t i=0; i < NUM_AXIS; i++) {
+	difference[i] = destination[i] - current_position[i];
+  }
+
+  float cartesian_mm = sqrt(sq(difference[X_AXIS]) + sq(difference[Y_AXIS]) + sq(difference[Z_AXIS]));
+
+  if (cartesian_mm < 0.000001) { cartesian_mm = abs(difference[E_AXIS]); }
+  if (cartesian_mm < 0.000001) { return; }
+  float seconds = 6000 * cartesian_mm / feedrate / feedmultiply;
+  int steps = max(1, int(scara_segments_per_second * seconds));
  //SERIAL_ECHOPGM("mm="); SERIAL_ECHO(cartesian_mm);
  //SERIAL_ECHOPGM(" seconds="); SERIAL_ECHO(seconds);
  //SERIAL_ECHOPGM(" steps="); SERIAL_ECHOLN(steps);
-for (int s = 1; s <= steps; s++) {
+  for (int s = 1; s <= steps; s++) {
 	float fraction = float(s) / float(steps);
 	for(int8_t i=0; i < NUM_AXIS; i++) {
 		destination[i] = current_position[i] + difference[i] * fraction;
@@ -4370,7 +4375,7 @@ for (int s = 1; s <= steps; s++) {
 	plan_buffer_line(delta[X_AXIS], delta[Y_AXIS], delta[Z_AXIS],
 	destination[E_AXIS], feedrate*feedmultiply/60/100.0,
 	active_extruder);
-}
+  }
 #endif // SCARA
 
 #ifdef DELTA
@@ -4445,11 +4450,16 @@ for (int s = 1; s <= steps; s++) {
 #if ! (defined DELTA || defined SCARA)
   //SL Note: For regular bioprinter moves and extrudes
   // Do not use feedmultiply for E or Z only moves
-  if( (current_position[X_AXIS] == destination [X_AXIS]) && (current_position[Y_AXIS] == destination [Y_AXIS])) {
+  if( (current_position[X_AXIS] == destination[X_AXIS]) && (current_position[Y_AXIS] == destination [Y_AXIS])) {
+      // E and Z move in 1st gantry
+      plan_buffer_line(destination[X_AXIS], destination[Y_AXIS], destination[Z_AXIS], destination[E_AXIS], feedrate/60, active_extruder, destination[X2_AXIS], destination[Z2_AXIS]);
+  }
+  else if((current_position[X2_AXIS] == destination[X2_AXIS]) && (current_position[Y_AXIS] == destination [Y_AXIS])) {
       plan_buffer_line(destination[X_AXIS], destination[Y_AXIS], destination[Z_AXIS], destination[E_AXIS], feedrate/60, active_extruder, destination[X2_AXIS], destination[Z2_AXIS]);
   }
   else {
-    plan_buffer_line(destination[X_AXIS], destination[Y_AXIS], destination[Z_AXIS], destination[E_AXIS], feedrate*feedmultiply/60/100.0, active_extruder, destination[X2_AXIS], destination[Z2_AXIS]);
+      // X and Y 
+      plan_buffer_line(destination[X_AXIS], destination[Y_AXIS], destination[Z_AXIS], destination[E_AXIS], feedrate*feedmultiply/60/100.0, active_extruder, destination[X2_AXIS], destination[Z2_AXIS]);
   }
 #endif // !(DELTA || SCARA)
 
